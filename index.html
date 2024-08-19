@@ -2,17 +2,25 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>US Map with Boundaries and Scroll Control</title>
+<title>US Map with Scroll-Based Pin Appearance</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
 <link href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>
 <style>
 body { margin: 0; padding: 0; }
 #map { position: absolute; top: 0; bottom: 0; width: 100%; height: 100vh; }
+#scrollTrigger {
+    position: absolute;
+    top: 150vh;  /* This ensures the element is below the fold, triggering when scrolled to */
+    height: 50px;
+    width: 100%;
+    background: transparent;
+}
 </style>
 </head>
 <body>
 <div id="map"></div>
+<div id="scrollTrigger"></div>
 <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoic2V2ZW5tdGVhbSIsImEiOiJjbHpuNmdsZ3owbHhuMm1wdTUzMDAxMnloIn0.Ei_Qz4rCFzozDMRqekljVg';
     const map = new mapboxgl.Map({
@@ -40,6 +48,19 @@ body { margin: 0; padding: 0; }
     map.on('mouseleave', function() {
         map.scrollZoom.disable();
     });
+
+    // Function to handle when the trigger element is intersected
+    function handleIntersection(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                map.setPaintProperty('jobsites', 'circle-opacity', 1); // Show pins when scrolled to
+            }
+        });
+    }
+
+    // Set up the Intersection Observer
+    const observer = new IntersectionObserver(handleIntersection);
+    observer.observe(document.getElementById('scrollTrigger'));
 </script>
 </body>
 </html>
