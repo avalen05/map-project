@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>US Map without Animation</title>
+<title>US Map with Boundaries and Zoom Limits</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
 <link href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>
@@ -19,8 +19,13 @@ body { margin: 0; padding: 0; }
         container: 'map',
         style: 'mapbox://styles/sevenmteam/cm006z1mg00bv01qq36j43l7t',
         center: [-98.5795, 39.8283],
-        zoom: 2.5,  // Adjusted zoom level for your preference
-        interactive: false // Disable map interaction
+        zoom: 3,  // Initial zoom level
+        minZoom: 2,  // Minimum zoom level
+        maxZoom: 6,  // Maximum zoom level
+        maxBounds: [
+            [-179.148909, 18.7763], // Southwest coordinates (Hawaii)
+            [-66.885444, 72.0843]   // Northeast coordinates (northern Alaska)
+        ] // Confining the map to the US
     });
 </script>
 </body>
