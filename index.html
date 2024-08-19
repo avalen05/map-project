@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>US Map with Boundaries and Zoom Limits</title>
+<title>US Map with Boundaries and Scroll Control</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
 <link href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>
@@ -19,13 +19,26 @@ body { margin: 0; padding: 0; }
         container: 'map',
         style: 'mapbox://styles/sevenmteam/cm006z1mg00bv01qq36j43l7t',
         center: [-98.5795, 39.8283],
-        zoom: 3,  // Initial zoom level
-        minZoom: 2,  // Minimum zoom level
-        maxZoom: 6,  // Maximum zoom level
+        zoom: 3,
+        minZoom: 2,
+        maxZoom: 6,
         maxBounds: [
-            [-179.148909, 18.7763], // Southwest coordinates (Hawaii)
-            [-66.885444, 72.0843]   // Northeast coordinates (northern Alaska)
-        ] // Confining the map to the US
+            [-125.0, 24.396308], // Southwest coordinates (California)
+            [-66.93457, 49.384358]  // Northeast coordinates (Virginia)
+        ]
+    });
+
+    // Disable scroll zoom by default
+    map.scrollZoom.disable();
+
+    // Enable scroll zoom only when the map is clicked
+    map.on('click', function() {
+        map.scrollZoom.enable();
+    });
+
+    // Disable scroll zoom when the mouse leaves the map area
+    map.on('mouseleave', function() {
+        map.scrollZoom.disable();
     });
 </script>
 </body>
