@@ -38,27 +38,11 @@ body { margin: 0; padding: 0; }
     });
 
     map.on('load', function () {
-        map.addSource('locations', {
-            'type': 'geojson',
-            'data': 'YOUR_GEOJSON_DATA_URL' // Replace with your GeoJSON data URL
-        });
-
-        map.addLayer({
-            'id': 'locations',
-            'type': 'circle',
-            'source': 'locations',
-            'paint': {
-                'circle-radius': 5,
-                'circle-color': '#FF0000',
-                'circle-opacity': 0 // Start with pins hidden
-            }
-        });
-
-        // Scroll-triggered animation to drop pins
+        // Scroll-triggered animation to drop pins on the 'jobsites' layer
         window.addEventListener('scroll', function () {
             var scrollPosition = window.scrollY || window.pageYOffset;
             var opacityValue = Math.min(scrollPosition / 500, 1);
-            map.setPaintProperty('locations', 'circle-opacity', opacityValue);
+            map.setPaintProperty('jobsites', 'circle-opacity', opacityValue);
         });
     });
 </script>
