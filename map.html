@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>US Map with Dropping Pins</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; height: 100vh; }
+.pin-animation {
+    animation: dropIn 1s ease forwards;
+}
+
+@keyframes dropIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic2V2ZW5tdGVhbSIsImEiOiJjbHpuNmdsZ3owbHhuMm1wdTUzMDAxMnloIn0.Ei_Qz4rCFzozDMRqekljVg';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/sevenmteam/cm006z1mg00bv01qq36j43l7t',
+        center: [-98.5795, 39.8283],
+        zoom: 4,
+        projection: 'mercator'
+    });
+
+    map.on('load', function () {
+        map.addSource('locations', {
+            'type': 'geojson',
+            'data': 'YOUR_GEOJSON_DATA_URL' // Replace with your GeoJSON data URL
+        });
+
+        map.addLayer({
+            'id': 'locations',
+            'type': 'circle',
+            'source': 'locations',
+            'paint': {
+                'circle-radius': 5,
+                'circle-color': '#FF0000',
+                'circle-opacity': 0 // Start with pins hidden
+            }
+        });
+
+        // Scroll-triggered animation to drop pins
+        window.addEventListener('scroll', function () {
+            var scrollPosition = window.scrollY || window.pageYOffset;
+            var opacityValue = Math.min(scrollPosition / 500, 1);
+            map.setPaintProperty('locations', 'circle-opacity', opacityValue);
+        });
+    });
+</script>
+
+</body>
+</html>
